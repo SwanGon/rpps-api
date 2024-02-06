@@ -1,4 +1,4 @@
-interface PracticianInstamedResponse {
+export interface PracticianInstamedResponse {
   "hydra:member": Practician[];
   "hydra:totalItems": number;
   "hydra:view": HydraView;

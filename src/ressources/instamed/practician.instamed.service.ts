@@ -1,6 +1,9 @@
-import axios from 'axios'; // Assurez-vous d'installer axios avec npm ou yarn
+import axios from 'axios';
+import { PracticianInstamedResponse } from './practician.instamed.model';
 
-async function searchPractician(str: string): Promise<PracticianInstamedResponse[]> {
-  const response = await axios.get<PracticianInstamedResponse[]>('/chemin/de/lapi/des/médecins');
+const urlInstamed = 'https://data.instamed.fr/api'
+
+export async function searchPractician(str: string, nb : number): Promise<PracticianInstamedResponse> {
+  const response = await axios.get<PracticianInstamedResponse>(urlInstamed + '/rpps?page=1&_per_page=' + nb + '&search=' + str);
   return response.data;
 }
