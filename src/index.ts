@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import {getPracticians} from "~/ressources/instamed/practician.instamed.controller";
+import { getPractitioner } from "./ressources/esante/practitioner.esante.controller";
 
 dotenv.config();
 
@@ -15,8 +16,14 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-// Mise à jour de la route pour inclure les paramètres d'URL
+// E-Sante
+
+app.get('/getEmails/:rpps', getPractitioner)
+
+// Instamed
+
 app.get('/practicians/:searchString/:numberToDisplay', getPracticians);
 
-// Vous pouvez également vouloir fournir une route sans paramètres spécifiques pour une requête plus générale
+app.get('/practicians/:searchString', getPracticians);
+
 app.get('/practicians', getPracticians);

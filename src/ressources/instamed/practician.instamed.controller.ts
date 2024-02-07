@@ -14,7 +14,19 @@ export const getPracticians = async (req: Request, res: Response) => {
         const response = await searchPractician(searchString || '', nb) as PracticianInstamedResponse
 
         // Vérifier si `hydra:member` existe dans la réponse, sinon renvoyer un tableau vide
-        const members = response["hydra:member"] ? response['hydra:member'] : [];
+        const members = response["hydra:member"] ? response['hydra:member'].map(practician => ({
+            rpps: practician.idRpps,
+            firstName  : practician.firstName,
+            lastName : practician.lastName,
+            fullName : practician.fullName,
+            specialty : practician.specialty,
+            address : practician.address,
+            zipcode : practician.zipcode,
+            city : practician.city,
+            phoneNumber : () => {
+                return practician.phoneNumber
+            }
+        })) : [];
 
         // Envoi de la réponse avec uniquement le tableau `hydra:member`
         res.json(members);
