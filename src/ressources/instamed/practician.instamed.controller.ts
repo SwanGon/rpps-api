@@ -23,9 +23,8 @@ export const getPracticians = async (req: Request, res: Response) => {
             address : practician.address,
             zipcode : practician.zipcode,
             city : practician.city,
-            phoneNumber : () => {
-                return practician.phoneNumber
-            }
+            phoneNumber : practician.phoneNumber
+            
         })) : [];
 
         // Envoi de la réponse avec uniquement le tableau `hydra:member`
