@@ -7,24 +7,28 @@ export const getPractitioner = async (req: Request, res: Response) => {
     try {
         const { rpps } = req.params;
 
-        // Conversion de `numberToDisplay` en nombre
-        const id = rpps ? parseInt(rpps, 10) : 10; // Par défaut à 10 si non spécifié
+        const id = parseInt(rpps, 10);
 
         // Appel à la fonction searchPractitioner avec les paramètres récupérés ou les valeurs par défaut
         const response = await searchPractitioner(id) as PractitionerEsanteResponse
 
         const emailAddresses: string[] = [];
-        response.entry.forEach(entry => {
-            entry.resource.extension.forEach(extension => {
-                const emailExtension = extension.extension.find(ext => ext.url === 'value');
-                if (emailExtension && emailExtension.valueString) {
-                    emailAddresses.push(emailExtension.valueString);
-                }
-            });
+        response.entry.forEach(it => {
+            if (it.resource.extension == null) {
+                return res.json([])
+            } else {
+                it.resource.extension.forEach(it => {
+                    const emailExtension = it.extension.find(ext => ext.url === 'value');
+                    if (emailExtension && emailExtension.valueString) {
+                        emailAddresses.push(emailExtension.valueString);
+                    }
+                });
+            }
+            
         });
 
         // Envoi de la réponse avec uniquement le tableau de mails
-        res.json({emailAddresses});
+        return res.json(emailAddresses);
     } catch (error) {
         // Gestion des erreurs
         console.error("Error fetching practicians:", error);

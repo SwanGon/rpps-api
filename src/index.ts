@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import {getPracticians} from "~/ressources/instamed/practician.instamed.controller";
+import {getPracticians, getPracticianWithRpps} from "~/ressources/instamed/practician.instamed.controller";
 import { getPractitioner } from "./ressources/esante/practitioner.esante.controller";
 
 dotenv.config();
@@ -27,3 +27,5 @@ app.get('/practicians/:searchString/:numberToDisplay', getPracticians);
 app.get('/practicians/:searchString', getPracticians);
 
 app.get('/practicians', getPracticians);
+
+app.get('/practician/:rpps', getPracticianWithRpps)

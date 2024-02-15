@@ -35,3 +35,16 @@ export const getPracticians = async (req: Request, res: Response) => {
         res.status(500).send('Une erreur est survenue lors de la récupération des praticiens.');
     }
 };
+
+export const getPracticianWithRpps = async (req: Request, res : Response) => {
+    try {
+        const {rpps} = req.params
+
+        
+    } catch (error) {
+        // Gestion des erreurs
+        console.error("Error fetching practicians:", error);
+        res.status(500).send('Une erreur est survenue lors de la récupération du praticien.');
+    }
+
+}

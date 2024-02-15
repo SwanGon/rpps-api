@@ -9,8 +9,6 @@ dotenv.config();
 axios.defaults.baseURL = "https://gateway.api.esante.gouv.fr/fhir/v1";
 axios.defaults.headers.common['ESANTE-API-KEY'] = process.env.E_SANTE_API_KEY;
 
-console.log("headers", axios.defaults.headers);
-
 export async function searchPractitioner(id: number): Promise<PractitionerEsanteResponse> {
   try {
     // Utilisation de template strings pour construire l'URL

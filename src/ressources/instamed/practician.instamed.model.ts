@@ -2,7 +2,7 @@ export interface PracticianInstamedResponse {
   "hydra:member": Practician[];
 }
 
-interface Practician {
+export interface Practician {
     "@id": string;
     "@type": string;
     idRpps: number;
