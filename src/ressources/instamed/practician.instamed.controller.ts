@@ -9,10 +9,12 @@ export const getPracticians = async (req: Request, res: Response) => {
         // Conversion de `numberToDisplay` en nombre
         const nb = numberToDisplay ? parseInt(numberToDisplay, 10) : 10; // Par défaut à 10 si non spécifié
 
-        const regex = new RegExp("\\d{11}")
-        if (regex.test(searchString)) {
+        if (new RegExp("\\d{11}").test(searchString)) {
             return withRpps(parseInt(searchString, 10), res)
-        } else {
+        } else if (new RegExp("\\d").test(searchString)) {
+            return res.json([])
+        }
+        else {
             return withSearch(searchString, nb, res)
         }
 };
