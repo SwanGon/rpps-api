@@ -9,7 +9,7 @@ export const getPracticians = async (req: Request, res: Response) => {
         // Conversion de `numberToDisplay` en nombre
         const nb = numberToDisplay ? parseInt(numberToDisplay, 10) : 10; // Par défaut à 10 si non spécifié
 
-        const regex = new RegExp("\d{11}")
+        const regex = new RegExp("\\d{11}")
         if (regex.test(searchString)) {
             return withRpps(parseInt(searchString, 10), res)
         } else {
@@ -19,9 +19,20 @@ export const getPracticians = async (req: Request, res: Response) => {
 
 const withRpps = async (rpps: number, res: Response) => {
     try {
-        const response = await fetchPracticianWithRpps(rpps) as Practician
+        const practician = await fetchPracticianWithRpps(rpps) as Practician
         
-        res.json([response])
+        res.json([{
+            rpps: practician.idRpps,
+            firstName  : practician.firstName,
+            lastName : practician.lastName,
+            fullName : practician.fullName,
+            specialty : practician.specialty,
+            address : practician.address,
+            zipcode : practician.zipcode,
+            city : practician.city,
+            phoneNumber : practician.phoneNumber
+            
+        }])
     } catch (error) {
         // Gestion des erreurs
         console.error("Error fetching practician:", error);
