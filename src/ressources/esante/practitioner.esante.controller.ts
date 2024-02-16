@@ -8,27 +8,30 @@ export const getPractitioner = async (req: Request, res: Response) => {
         const { rpps } = req.params;
 
         const id = parseInt(rpps, 10);
+        // Appel à la fonction searchPractitioner avec l'ID du praticien
+        const response = await searchPractitioner(id) as PractitionerEsanteResponse;
 
-        // Appel à la fonction searchPractitioner avec les paramètres récupérés ou les valeurs par défaut
-        const response = await searchPractitioner(id) as PractitionerEsanteResponse
-
+        // Initialisation du tableau pour les adresses email
         const emailAddresses: string[] = [];
+
+        // Traitement des données pour extraire les adresses email
         response.entry.forEach(it => {
-            if (it.resource.extension == null) {
-                return res.json([])
-            } else {
-                it.resource.extension.forEach(it => {
-                    const emailExtension = it.extension.find(ext => ext.url === 'value');
-                    if (emailExtension && emailExtension.valueString) {
-                        emailAddresses.push(emailExtension.valueString);
-                    }
-                });
-            }
-            
+            it.resource.extension?.forEach(ext => {
+                const emailExtension = ext.extension.find(ext => ext.url === 'value');
+                if (emailExtension && emailExtension.valueString) {
+                    emailAddresses.push(emailExtension.valueString);
+                }
+            });
         });
 
-        // Envoi de la réponse avec uniquement le tableau de mails
-        return res.json(emailAddresses);
+        // Vérification après traitement pour voir si des emails ont été trouvés
+        if (emailAddresses.length === 0) {
+            // Si aucun email n'a été trouvé, envoyer une réponse vide
+            return res.json([]);
+        } else {
+            // Sinon, envoyer les adresses email trouvées
+            return res.json(emailAddresses);
+        }
     } catch (error) {
         // Gestion des erreurs
         console.error("Error fetching practicians:", error);
