@@ -11,7 +11,9 @@ export const getPracticians = async (req: Request, res: Response) => {
 
         const regex = new RegExp("\d{11}")
         if (regex.test(searchString)) {
-
+            return withRpps(parseInt(searchString, 10), res)
+        } else {
+            return withSearch(searchString, nb, res)
         }
 };
 
